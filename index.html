@@ -11,6 +11,12 @@
 <script>
   $(document).ready(function() {
     $('#calendar').fullCalendar({
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,basicWeek,basicDay'
+      },
+
       eventSources: [
         // US Holidays
         'http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic',
