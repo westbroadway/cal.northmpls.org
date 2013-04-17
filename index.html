@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href='css/fullcalendar.css' rel='stylesheet' />
+<link href='css/fullcalendar.print.css' rel='stylesheet' media='print' />
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src='js/jquery-ui-1.10.2.custom.min.js'></script>
+<script src='js/fullcalendar.min.js'></script>
+<script src='js/gcal.js'></script>
+<script>
+  $(document).ready(function() {
+    $('#calendar').fullCalendar({
+      eventSources: [
+        // US Holidays
+        'http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic',
+        // Lundstrum
+        //'http://www.google.com/calendar/feeds/lundstrum%40gmail.com.calendar.google.com/public/basic',
+        // WBC Farmers Market
+        'http://www.google.com/calendar/feeds/4u10fkeuicie4pg15ddkjtqkv0%40group.calendar.google.com/public/basic',
+        // Lowry Business Association
+        'http://www.google.com/calendar/feeds/lowrybzassn%40gmail.com/public/basic',
+        // Northwest Business Association
+        'http://www.google.com/calendar/feeds/u7qopdnvq251b56ch9pjg7pr9g%40group.calendar.google.com/public/basic',
+        //WCNO
+        'http://www.google.com/calendar/feeds/72cdkf7u3ms4gol9jie8vnr448%40group.calendar.google.com/public/basic',
+        // Jordan Area
+        'http://www.google.com/calendar/feeds/jlf409ve06c31pfquoi71ee7fg%40group.calendar.google.com/public/basic',
+        // Cleveland
+        'http://www.google.com/calendar/feeds/clevelandneighborhood.org_q1cjksji4r5o4v7nku2p0vvlq4%40group.calendar.google.com/public/basic',
+        // WBC
+        'http://www.google.com/calendar/feeds/bhsnak19p1qdhkcbo3u1v7ntpo%40group.calendar.google.com/public/basic'
+      ],
+
+      eventClick: function(event) {
+        // opens events in a popup window
+        window.open(event.url, 'gcalevent', 'width=700,height=600');
+        return false;
+      },
+
+      loading: function(bool) {
+        if (bool) {
+          $('#loading').show();
+        }else{
+          $('#loading').hide();
+        }
+      }
+
+    });
+
+  });
+
+</script>
+<style>
+
+  body {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 14px;
+    font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+    }
+
+  #loading {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    }
+
+  #calendar {
+    width: 900px;
+    margin: 0 auto;
+    }
+
+</style>
+</head>
+<body>
+<div id='loading' style='display:none'>loading...</div>
+<div id='calendar'></div>
+</body>
+</html>
