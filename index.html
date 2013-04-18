@@ -16,7 +16,11 @@
         center: 'title',
         right: 'month,basicWeek,basicDay'
       },
-
+      columnFormat: {
+        month: 'dddd',    // Monday
+        week: 'ddd M/d', // Mon 9/7
+        day: 'dddd M/d'  // Monday 9/7
+      },
       eventSources: [
         // US Holidays
         'http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic',
@@ -71,26 +75,54 @@
   });
 
 </script>
+<!-- TYPEKIT -->
+<script type="text/javascript" src="//use.typekit.net/koj3zxp.js"></script>
+<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
 <style>
 
   body {
     margin-top: 40px;
     text-align: center;
     font-size: 14px;
-    font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-    }
+    font-family: "proxima-nova", Helvetica, Arial, sans-serif;
+  }
 
   #loading {
     position: absolute;
     top: 5px;
     right: 5px;
-    }
+  }
 
   #calendar {
     width: 900px;
     margin: 0 auto;
-    }
-
+  }
+  #calendar a {
+    text-decoration: none;
+  }
+  #calendar a:hover {
+    color: #0d5a8a;
+  }
+  #calendar .fc-header-title h2 {
+    color: #444;
+/*    font: 300 30px/1 "proxima-nova", sans-serif; */
+    font-weight: normal;
+    text-transform: uppercase;
+  }
+  #calendar thead th {
+    background: #d32fa2 none;
+    border: 2px solid #fff;
+    color: #fefefe;
+    font: 300 16px/1 "proxima-nova", sans-serif;
+    padding: 6px;
+    text-transform: uppercase;
+  }
+  #calendar .fc-day-number {
+    color: #64b0b3;
+    font-size: 16px;
+    font-weight: bold;
+  }
 </style>
 </head>
 <body>
