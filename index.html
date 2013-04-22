@@ -1,131 +1,117 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href='css/fullcalendar.css' rel='stylesheet' />
-<link href='css/fullcalendar.print.css' rel='stylesheet' media='print' />
+  <link href='css/fullcalendar.css' rel='stylesheet'/>
+  <link href='css/fullcalendar.print.css' rel='stylesheet' media='print'/>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src='js/jquery-ui-1.10.2.custom.min.js'></script>
-<script src='js/fullcalendar.min.js'></script>
-<script src='js/gcal.js'></script>
-<script>
-  $(document).ready(function() {
-    $('#calendar').fullCalendar({
-      header: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'month,basicWeek,basicDay'
-      },
-      columnFormat: {
-        month: 'dddd',    // Monday
-        week: 'ddd M/d', // Mon 9/7
-        day: 'dddd M/d'  // Monday 9/7
-      },
-      eventSources: [
-        // US Holidays
-        'http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic',
-        // Lundstrum
-        'http://www.google.com/calendar/feeds/lundstrum%40gmail.com/public/basic',
-        // WBC Farmers Market
-        'http://www.google.com/calendar/feeds/4u10fkeuicie4pg15ddkjtqkv0%40group.calendar.google.com/public/basic',
-        // Lowry Business Association
-        'http://www.google.com/calendar/feeds/lowrybzassn%40gmail.com/public/basic',
-        // Northwest Business Association
-        'http://www.google.com/calendar/feeds/u7qopdnvq251b56ch9pjg7pr9g%40group.calendar.google.com/public/basic',
-        //Webber Camden
-        'http://www.google.com/calendar/feeds/72cdkf7u3ms4gol9jie8vnr448%40group.calendar.google.com/public/basic',
-        // Jordan Area
-        'http://www.google.com/calendar/feeds/jlf409ve06c31pfquoi71ee7fg%40group.calendar.google.com/public/basic',
-        // Cleveland
-        'http://www.google.com/calendar/feeds/clevelandneighborhood.org_q1cjksji4r5o4v7nku2p0vvlq4%40group.calendar.google.com/public/basic',
-        // Homewood
-        'http://www.google.com/calendar/feeds/ojf5eujb1nlrt9mgjq5jcvsiec%40group.calendar.google.com/public/basic',
-        // Harrison
-        'http://www.google.com/calendar/feeds/harrisonmpls@gmail.com/public/basic',
-        // Lind Bohanon
-        'http://www.google.com/calendar/feeds/joeandjeannabor%40gmail.com/public/basic',
-        'http://www.google.com/calendar/feeds/26j5sg50qf96eoc9dudtvqslmg%40group.calendar.google.com/public/basic',
-        'http://www.google.com/calendar/feeds/m02u3qnr49jqke39dhnutkcuh4%40group.calendar.google.com/public/basic',
-        'http://www.google.com/calendar/feeds/flchvij89hpk4n9it91ucpgjj4%40group.calendar.google.com/public/basic',
-        'http://www.google.com/calendar/feeds/9khgk3frafmhe25tg27c6f5r4g%40group.calendar.google.com/public/basic',
-        'http://www.google.com/calendar/feeds/rj4q4hfv3fogj073e2ulkl9oac%40group.calendar.google.com/public/basic',
-        'http://www.google.com/calendar/feeds/cd8n89ha27fno1jkvtim5g5ag0%40group.calendar.google.com/public/basic',
-        'http://www.google.com/calendar/feeds/u5p7gtoq7i8mm4k77qva4kkkm0%40group.calendar.google.com/public/basic',
-        'http://www.google.com/calendar/feeds/phltecf38eds4q1nk257rsc54c%40group.calendar.google.com/public/basic',
-        // Northside Arts
-        'http://www.google.com/calendar/feeds/info%40nacarts.org/public/basic',
-        // WBC
-        'http://www.google.com/calendar/feeds/bhsnak19p1qdhkcbo3u1v7ntpo%40group.calendar.google.com/public/basic'
-      ],
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src='js/jquery-ui-1.10.2.custom.min.js'></script>
+  <script src='js/fullcalendar.min.js'></script>
+  <script src='js/gcal.js'></script>
+  <script src="js/js-yaml.min.js"></script>
 
-      eventClick: function(event) {
-        // opens events in a popup window
-        window.open(event.url, 'gcalevent', 'width=700,height=600');
-        return false;
-      },
-
-      loading: function(bool) {
-        if (bool) {
-          $('#loading').show();
-        }else{
-          $('#loading').hide();
+  <script>
+    $(document).ready(function () {
+      // obtain feeds list
+      $.ajax({
+        url: 'https://api.github.com/repos/westbroadway/northmpls_content/contents/calendar_feeds.yml',
+        beforeSend: function (request) {
+          request.setRequestHeader("Accept", "application/vnd.github.raw");
+        },
+        success: function (response) {
+          // parse sources from yaml
+          var sources = jsyaml.load(response.replace(/^\s+|\s+$/g, ''));
+          // filter out google_feeds and pass to full calendar
+          initCalendar(jQuery.grep(sources, function (item) {
+            //has a type of 'google_feed' and a value for 'url'
+            return (item.type === 'google_feed' && item.url && item.url.length);
+          }));
         }
-      }
+      });
+
+      var initCalendar = function (eventSources) {
+
+        $('#calendar').fullCalendar({
+          header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,basicWeek,basicDay'
+          },
+          columnFormat: {
+            month: 'dddd',    // Monday
+            week: 'ddd M/d', // Mon 9/7
+            day: 'dddd M/d'  // Monday 9/7
+          },
+          eventSources: eventSources,
+          eventClick: function (event) {
+            // opens events in a popup window
+            window.open(event.url, 'gcalevent', 'width=700,height=600');
+            return false;
+          },
+          loading: function (bool) {
+            if (bool) {
+              $('#loading').show();
+            } else {
+              $('#loading').hide();
+            }
+          }
+
+        });
+      };
 
     });
 
-  });
+  </script>
 
-</script>
-<!-- TYPEKIT -->
-<script type="text/javascript" src="//use.typekit.net/koj3zxp.js"></script>
-<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  <style>
+    body {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 14px;
+      font-family: "proxima-nova", Helvetica, Arial, sans-serif;
+    }
 
-<style>
+    #loading {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+    }
 
-  body {
-    margin-top: 40px;
-    text-align: center;
-    font-size: 14px;
-    font-family: "proxima-nova", Helvetica, Arial, sans-serif;
-  }
+    #calendar {
+      width: 900px;
+      margin: 0 auto;
+    }
 
-  #loading {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-  }
+    #calendar a {
+      text-decoration: none;
+    }
 
-  #calendar {
-    width: 900px;
-    margin: 0 auto;
-  }
-  #calendar a {
-    text-decoration: none;
-  }
-  #calendar a:hover {
-    color: #0d5a8a;
-  }
-  #calendar .fc-header-title h2 {
-    color: #444;
-/*    font: 300 30px/1 "proxima-nova", sans-serif; */
-    font-weight: normal;
-    text-transform: uppercase;
-  }
-  #calendar thead th {
-    background: #d32fa2 none;
-    border: 2px solid #fff;
-    color: #fefefe;
-    font: 300 16px/1 "proxima-nova", sans-serif;
-    padding: 6px;
-    text-transform: uppercase;
-  }
-  #calendar .fc-day-number {
-    color: #64b0b3;
-    font-size: 16px;
-    font-weight: bold;
-  }
-</style>
+    #calendar a:hover {
+      color: #0d5a8a;
+    }
+
+    #calendar .fc-header-title h2 {
+      color: #444;
+      /*    font: 300 30px/1 "proxima-nova", sans-serif; */
+      font-weight: normal;
+      text-transform: uppercase;
+    }
+
+    #calendar thead th {
+      background: #d32fa2 none;
+      border: 2px solid #fff;
+      color: #fefefe;
+      font: 300 16px/1 "proxima-nova", sans-serif;
+      padding: 6px;
+      text-transform: uppercase;
+    }
+
+    #calendar .fc-day-number {
+      color: #64b0b3;
+      font-size: 16px;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
 <div id='loading' style='display:none'>loading...</div>
