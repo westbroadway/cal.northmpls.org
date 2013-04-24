@@ -7,19 +7,29 @@ calApp.controller('MainCtrl', function ($scope) {
 
   $scope.Sources = {
     all: [],
-    active: [],
+    feeds: [],
     filtered: []
   };
 
   $scope.Filters = [];
 
+  var calendarElm = $('#calendar');
   $scope.sourceChanged = function (filter, event) {
     if (event) event.preventDefault();
 
+    var sources = _($scope.Sources.feeds).filter(function (item) {
+      return item.name == filter.name;
+    });
     if (filter.checked) {
-
+      _(sources).each(function (source) {
+        calendarElm.fullCalendar('addEventSource', source);
+        calendarElm.fullCalendar('refetchEvents');
+      });
     } else {
-
+      _(sources).each(function (source) {
+        calendarElm.fullCalendar('removeEventSource', source);
+        calendarElm.fullCalendar('refetchEvents');
+      });
     }
   };
 });
