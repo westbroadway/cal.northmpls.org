@@ -10,4 +10,16 @@ calApp.controller('MainCtrl', function ($scope) {
     active: [],
     filtered: []
   };
+
+  $scope.Filters = [];
+
+  $scope.sourceChanged = function (filter, event) {
+    if (event) event.preventDefault();
+
+    if (filter.checked) {
+
+    } else {
+
+    }
+  };
 });

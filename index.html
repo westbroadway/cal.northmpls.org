@@ -12,6 +12,7 @@
   <script src="js/vendors/js-yaml.min.js"></script>
 
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.4/angular.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
   <script src="js/angular-app/app.js"></script>
   <script src="js/angular-app/contollers/MainCtrl.js"></script>
   <script src="js/angular-app/contollers/CalendarCtrl.js"></script>
@@ -19,11 +20,23 @@
 </head>
 <body data-ng-controller="MainCtrl">{{test}}
 <div id="loading" data-ng-show="state.loading">loading...</div>
-<div id="filters"></div>
+
+<div id="filters">
+  <ul style="text-align: left">
+    <li data-ng-repeat="filter in Filters">
+      <label>
+        <input type="checkbox" data-ng-model="filter.checked" data-ng-change="sourceChanged(filter, $event)">
+        <span data-ng-bind="filter.title"></span>
+      </label>
+    </li>
+  </ul>
+</div>
 
 <div data-ng-controller="CalendarCtrl">
   <div id="calendar"></div>
 </div>
+
+<pre style="text-align: left">{{Filters | json}}</pre>
 
 </body>
 </html>

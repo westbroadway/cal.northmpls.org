@@ -1,28 +1,42 @@
 'use strict';
 
-calApp.controller('CalendarCtrl', function ($scope, fullcalendarHelper) {
+/**
+ * A list of toggles that a click can turn on or off.
+ * Examples to be posted shortly.
+ * The filtering should work similar to this page http://mikesmithdev.com/examples/calendar.aspx
+
+ * The filter should be the calendar 'title' property.
+ * If we need a machine name use the 'name' property.
+ * Some calendars share the same name property and should be included as one.
+ */
+calApp.controller('CalendarCtrl', function ($scope, $http, fullcalendarHelper) {
 
   var FEEDS_SOURCE = 'https://api.github.com/repos/westbroadway/northmpls_content/contents/calendar_feeds.yml';
 
   var obtainFeeds = function () {
-    $.ajax({
-      url: FEEDS_SOURCE,
-      beforeSend: function (request) {
-        request.setRequestHeader("Accept", "application/vnd.github.raw");
-      },
-      success: function (response) {
+    $http.get(FEEDS_SOURCE, {headers: {"Accept": "application/vnd.github.raw"}})
+      .success(function (response) {
         // parse sources from yaml
-        $scope.Sources.all = jsyaml.load(response.replace(/^\s+|\s+$/g, ''));
+        angular.extend($scope.Sources.all, _.filter(
+          jsyaml.load(response.replace(/^\s+|\s+$/g, '')),
+          function (item) {
+            //has a type of 'google_feed' and a value for 'url'
+            return (item.type === 'google_feed' && item.url && item.url.length);
+          }));
 
-        $scope.Sources.active = jQuery.grep($scope.Sources.all, function (item) {
-          //has a type of 'google_feed' and a value for 'url'
-          return (item.type === 'google_feed' && item.url && item.url.length);
-        });
+        $scope.Sources.feeds = angular.copy($scope.Sources.all);
+
+        $scope.Filters = angular.extend($scope.Filters, _(
+          _($scope.Sources.feeds).map(function (item) {
+            return { name: item.name, title: item.title, checked: true };
+          })
+        ).uniq(function (item) {
+            return item.name;
+          }));
 
         // filter out google_feeds and pass to full calendar
-        initCalendar($scope.Sources.active);
-      }
-    });
+        initCalendar($scope.Sources.feeds);
+      });
   };
 
   var calendarElm = $('#calendar');
