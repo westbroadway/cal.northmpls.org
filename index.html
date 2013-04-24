@@ -1,117 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link href='css/fullcalendar.css' rel='stylesheet'/>
-  <link href='css/fullcalendar.print.css' rel='stylesheet' media='print'/>
+  <link href='css/vendors/fullcalendar.css' rel='stylesheet'/>
+  <link href='css/vendors/fullcalendar.print.css' rel='stylesheet' media='print'/>
+  <link href='css/style.css' rel='stylesheet'/>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script src='js/jquery-ui-1.10.2.custom.min.js'></script>
-  <script src='js/fullcalendar.min.js'></script>
-  <script src='js/gcal.js'></script>
-  <script src="js/js-yaml.min.js"></script>
-
-  <script>
-    $(document).ready(function () {
-      // obtain feeds list
-      $.ajax({
-        url: 'https://api.github.com/repos/westbroadway/northmpls_content/contents/calendar_feeds.yml',
-        beforeSend: function (request) {
-          request.setRequestHeader("Accept", "application/vnd.github.raw");
-        },
-        success: function (response) {
-          // parse sources from yaml
-          var sources = jsyaml.load(response.replace(/^\s+|\s+$/g, ''));
-          // filter out google_feeds and pass to full calendar
-          initCalendar(jQuery.grep(sources, function (item) {
-            //has a type of 'google_feed' and a value for 'url'
-            return (item.type === 'google_feed' && item.url && item.url.length);
-          }));
-        }
-      });
-
-      var initCalendar = function (eventSources) {
-
-        $('#calendar').fullCalendar({
-          header: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'month,basicWeek,basicDay'
-          },
-          columnFormat: {
-            month: 'dddd',    // Monday
-            week: 'ddd M/d', // Mon 9/7
-            day: 'dddd M/d'  // Monday 9/7
-          },
-          eventSources: eventSources,
-          eventClick: function (event) {
-            // opens events in a popup window
-            window.open(event.url, 'gcalevent', 'width=700,height=600');
-            return false;
-          },
-          loading: function (bool) {
-            if (bool) {
-              $('#loading').show();
-            } else {
-              $('#loading').hide();
-            }
-          }
-
-        });
-      };
-
-    });
-
-  </script>
-
-  <style>
-    body {
-      margin-top: 40px;
-      text-align: center;
-      font-size: 14px;
-      font-family: "proxima-nova", Helvetica, Arial, sans-serif;
-    }
-
-    #loading {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-    }
-
-    #calendar {
-      width: 900px;
-      margin: 0 auto;
-    }
-
-    #calendar a {
-      text-decoration: none;
-    }
-
-    #calendar a:hover {
-      color: #0d5a8a;
-    }
-
-    #calendar .fc-header-title h2 {
-      color: #444;
-      /*    font: 300 30px/1 "proxima-nova", sans-serif; */
-      font-weight: normal;
-      text-transform: uppercase;
-    }
-
-    #calendar thead th {
-      background: #d32fa2 none;
-      border: 2px solid #fff;
-      color: #fefefe;
-      font: 300 16px/1 "proxima-nova", sans-serif;
-      padding: 6px;
-      text-transform: uppercase;
-    }
-
-    #calendar .fc-day-number {
-      color: #64b0b3;
-      font-size: 16px;
-      font-weight: bold;
-    }
-  </style>
+  <script src='js/vendors/jquery-ui-1.10.2.custom.min.js'></script>
+  <script src='js/vendors/fullcalendar.min.js'></script>
+  <script src='js/vendors/gcal.js'></script>
+  <script src="js/vendors/js-yaml.min.js"></script>
+  <script src="js/script.js"></script>
 </head>
 <body>
 <div id='loading' style='display:none'>loading...</div>
