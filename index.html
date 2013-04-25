@@ -26,6 +26,7 @@
   <script src="js/angular-app/contollers/MainCtrl.js"></script>
   <script src="js/angular-app/contollers/CalendarCtrl.js"></script>
   <script src="js/angular-app/services/fullcalendar-helper-service.js"></script>
+  <script src="js/angular-app/services/gapi-service.js"></script>
 </head>
 <body data-ng-controller="MainCtrl">
 <div class="container">
@@ -42,9 +43,16 @@
         data-ng-model="Filters.selected">
   </div>
 
-  <div data-ng-controller="CalendarCtrl">
+  <div id="CalendarCtrl" data-ng-controller="CalendarCtrl">
     <div id="calendar"></div>
   </div>
+
+  <script>
+    var gapiLoaded = function () {
+      angular.element('body').scope().gapiLoaded();
+    }
+  </script>
+  <script src="https://apis.google.com/js/client.js?onload=gapiLoaded"></script>
 
 </div>
 </body>

@@ -57,4 +57,8 @@ calApp.controller('MainCtrl', function ($scope) {
       });
     }
   });
+
+  $scope.gapiLoaded = function () {
+    $scope.$emit('gapi.loaded');
+  };
 });
