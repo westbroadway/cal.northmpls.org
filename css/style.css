@@ -1,5 +1,5 @@
 body {
-  margin-top: 40px;
+  margin-top: 10px;
   text-align: center;
   font-size: 14px;
   font-family: "proxima-nova", Helvetica, Arial, sans-serif;
@@ -13,7 +13,7 @@ body {
 
 #calendar {
   width: 900px;
-  margin: 40px auto 0;
+  margin: 20px auto 0;
 }
 
 #calendar a {
@@ -47,9 +47,11 @@ body {
 }
 
 #filters .select2-container {
-  width: 100%;
+  width: 900px;
 }
-
+#filters .select2-container-multi .select2-choices {
+  border-color: #eef;
+}
 /*
   * the setup class is is where you define the transition code and where
     you define any initialization styles for your animation.
