@@ -13,7 +13,7 @@ body {
 
 #calendar {
   width: 900px;
-  margin: 0 auto;
+  margin: 40px auto 0;
 }
 
 #calendar a {
@@ -44,4 +44,29 @@ body {
   color: #64b0b3;
   font-size: 16px;
   font-weight: bold;
+}
+
+#filters .select2-container {
+  width: 100%;
+}
+
+/*
+  * the setup class is is where you define the transition code and where
+    you define any initialization styles for your animation.
+
+  * the start class is where the animation occurs. So setup any of the
+    styles that you wish to animate. Also note that you must include both
+    classes together so that the animation styles are not conflicting with
+    the setup styles (this avoids any CSS-specificity issues).
+*/
+.mycss-animation-setup {
+  -webkit-transition:0.3s linear all;
+  -moz-transition:0.3s linear all;
+  -o-transition:0.3s linear all;
+  transition:0.3s linear all; /* future proof */
+
+  background:red;
+}
+.mycss-animation-setup.mycss-animation-start {
+  background:blue;
 }

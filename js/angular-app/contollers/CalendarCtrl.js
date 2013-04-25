@@ -13,7 +13,8 @@ calApp.controller('CalendarCtrl', function ($scope, $http, fullcalendarHelper) {
 
   var FEEDS_SOURCE = 'https://api.github.com/repos/westbroadway/northmpls_content/contents/calendar_feeds.yml';
 
-  var obtainFeeds = function () {
+  $scope.obtainFeeds = function () {
+
     $http.get(FEEDS_SOURCE, {headers: {"Accept": "application/vnd.github.raw"}})
       .success(function (response) {
         // parse sources from yaml
@@ -26,13 +27,15 @@ calApp.controller('CalendarCtrl', function ($scope, $http, fullcalendarHelper) {
 
         $scope.Sources.feeds = angular.copy($scope.Sources.all);
 
-        $scope.Filters = angular.extend($scope.Filters, _(
+        // init all available to fullcalendar filters
+        angular.extend($scope.Filters.all, _(
           _($scope.Sources.feeds).map(function (item) {
             return { name: item.name, title: item.title, checked: true };
           })
-        ).uniq(function (item) {
-            return item.name;
-          }));
+        ).uniq(function (item) { return item.name; }));
+
+        // populate all filters to selection
+        $scope.Filters.selected = angular.copy($scope.Filters.all);
 
         // filter out google_feeds and pass to full calendar
         initCalendar($scope.Sources.feeds);
@@ -58,14 +61,11 @@ calApp.controller('CalendarCtrl', function ($scope, $http, fullcalendarHelper) {
         // opens events in a popup window
         window.open(event.url, 'gcalevent', 'width=700,height=600');
         return false;
-      },
-      loading: function (bool) {
-        $scope.state.loading = bool;
       }
     });
   };
 
   // fire up loading
-  obtainFeeds();
+  $scope.obtainFeeds();
 
 })

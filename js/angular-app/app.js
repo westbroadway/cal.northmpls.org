@@ -1,3 +1,3 @@
 'use strict';
 
-var calApp = angular.module('calApp', []);
+var calApp = angular.module('calApp', ['ui']);

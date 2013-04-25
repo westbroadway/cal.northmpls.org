@@ -3,38 +3,49 @@
 <head>
   <link href="css/vendors/fullcalendar.css" rel="stylesheet">
   <link href="css/vendors/fullcalendar.print.css" rel="stylesheet" media="print">
+  <link href="js/vendors/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script src="js/vendors/jquery-ui-1.10.2.custom.min.js"></script>
   <script src="js/vendors/fullcalendar.min.js"></script>
   <script src="js/vendors/gcal.js"></script>
   <script src="js/vendors/js-yaml.min.js"></script>
 
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.4/angular.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+
+  <link href="js/vendors/select2-3.3.2/select2.css" rel="stylesheet">
+  <script src="js/vendors/select2-3.3.2/select2.min.js"></script>
+
+  <!-- angularUI -->
+  <link href="js/vendors/angular-ui-0.4.0/build/angular-ui.min.css" rel="stylesheet">
+  <script src="js/vendors/angular-ui-0.4.0/build/angular-ui-ieshiv.min.js"></script>
+  <script src="js/vendors/angular-ui-0.4.0/build/angular-ui.min.js"></script>
+
   <script src="js/angular-app/app.js"></script>
   <script src="js/angular-app/contollers/MainCtrl.js"></script>
   <script src="js/angular-app/contollers/CalendarCtrl.js"></script>
   <script src="js/angular-app/services/fullcalendar-helper-service.js"></script>
 </head>
-<body data-ng-controller="MainCtrl">{{test}}
-<div id="loading" data-ng-show="state.loading">loading...</div>
+<body data-ng-controller="MainCtrl">
+<div class="container">
 
-<div id="filters">
-  <ul style="text-align: left">
-    <li data-ng-repeat="filter in Filters">
-      <label>
-        <input type="checkbox" data-ng-model="filter.checked" data-ng-change="sourceChanged(filter, $event)">
-        <span data-ng-bind="filter.title"></span>
-      </label>
-    </li>
-  </ul>
+  <div data-ng-switch data-ng-show="state.loading" class="span6 offset3" data-ng-animate="{event: 'mycss-animation-setup'}">
+    <div class="alert alert-info">
+      Loading...
+    </div>
+  </div>
+
+  <div id="filters">
+    <input id="filters_select2" type="hidden"
+        data-ui-select2="FiltersSelect2Config"
+        data-ng-model="Filters.selected">
+  </div>
+
+  <div data-ng-controller="CalendarCtrl">
+    <div id="calendar"></div>
+  </div>
+
 </div>
-
-<div data-ng-controller="CalendarCtrl">
-  <div id="calendar"></div>
-</div>
-
 </body>
 </html>

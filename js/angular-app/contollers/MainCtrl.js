@@ -11,25 +11,50 @@ calApp.controller('MainCtrl', function ($scope) {
     filtered: []
   };
 
-  $scope.Filters = [];
+  $scope.Filters = {
+    all: [],
+    selected: []
+  };
+
+  //$scope.selectedFilters = [];
+
+  var filterDisplayFormat = function (filter) {
+    return filter.title;
+  };
+
+  $scope.FiltersSelect2Config = {
+    multiple: true,
+    id: 'name',
+    data: {
+      results: $scope.Filters.all,
+      text: filterDisplayFormat
+    },
+    formatSelection: filterDisplayFormat,
+    formatResult: filterDisplayFormat,
+    change: function (event) {
+      console.log(arguments);
+    }
+  };
 
   var calendarElm = $('#calendar');
-  $scope.sourceChanged = function (filter, event) {
-    if (event) event.preventDefault();
 
-    var sources = _($scope.Sources.feeds).filter(function (item) {
-      return item.name == filter.name;
-    });
-    if (filter.checked) {
-      _(sources).each(function (source) {
+  $('#filters_select2').on('change', function (event) {
+    var findSourcesByName = function (name) {
+      return _($scope.Filters.all).filter(function (item) {
+        return item.name == name;
+      });
+    };
+
+    if (event.added) {
+      _(findSourcesByName(event.added.name)).each(function (source) {
         calendarElm.fullCalendar('addEventSource', source);
         calendarElm.fullCalendar('refetchEvents');
       });
-    } else {
-      _(sources).each(function (source) {
+    } else if (event.removed) {
+      _(findSourcesByName(event.removed.name)).each(function (source) {
         calendarElm.fullCalendar('removeEventSource', source);
         calendarElm.fullCalendar('refetchEvents');
       });
     }
-  };
+  });
 });
