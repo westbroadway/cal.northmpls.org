@@ -83,7 +83,10 @@ calApp.controller('CalendarCtrl', function ($scope, $http, fullcalendarHelper, G
       _(feeds).each(function (feed) {
         if (!feed.google_cal_email) return; //@TODO
         calsNum += 1;
-        gapi.client.calendar.events.list({ calendarId: feed.google_cal_email.replace('%40', '@') })
+        gapi.client.calendar.events.list({
+          calendarId: feed.google_cal_email.replace('%40', '@'),
+          minTime: fullcalendarHelper.formatDate(new Date(Date.now() - 31320000000), 'u')
+        })
           .execute(function (response) {
             $scope.$apply(function () {
               events = events.concat(
