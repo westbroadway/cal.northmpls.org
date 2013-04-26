@@ -7,7 +7,7 @@
 
  * The filter should be the calendar 'title' property.
  * If we need a machine name use the 'name' property.
- * Some calendars share the same name property and should be included as one.
+ * Some calendars share the same 'name' property and should be included as one.
  */
 calApp.controller('CalendarCtrl', function ($scope, $http, fullcalendarHelper, GAPI) {
 
@@ -85,10 +85,10 @@ calApp.controller('CalendarCtrl', function ($scope, $http, fullcalendarHelper, G
         calsNum += 1;
         gapi.client.calendar.events.list({
           calendarId: feed.google_cal_email.replace('%40', '@'),
-          minTime: fullcalendarHelper.formatDate(new Date(Date.now() - 31320000000), 'u'),
-          maxTime: fullcalendarHelper.formatDate(new Date(Date.now() + 31320000000), 'u'),
+          minTime: fullcalendarHelper.formatDate(new Date(Date.now() - 4010001000), 'u'),
+          maxTime: fullcalendarHelper.formatDate(new Date(Date.now() + 4010001000), 'u'),
           singleEvents: true,
-          maxResults: 9999
+          maxResults: 200
         })
           .execute(function (response) {
             $scope.$apply(function () {
