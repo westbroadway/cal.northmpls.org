@@ -39,7 +39,7 @@ calApp.controller('CalendarCtrl', function ($scope, $http, fullcalendarHelper, G
 
   $scope.updateCalendar = function (events) {
     fullcalendarHelper.removeEvents(calendarElm);
-    $scope.initCalendar(events);
+    fullcalendarHelper.addEventSource(calendarElm, events);
   };
 
   $scope.$on('events.updated', function (event, data) {

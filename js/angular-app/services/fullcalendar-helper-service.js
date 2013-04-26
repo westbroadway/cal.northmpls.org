@@ -28,6 +28,10 @@ calApp.service('fullcalendarHelper', function () {
         elm.fullCalendar('refetchEvents');
       },
 
+      addEventSource: function (elm, events) {
+        elm.fullCalendar('addEventSource', events);
+      },
+
       triggerNext: function (elm) {
         elm.fullCalendar('next');
       },
