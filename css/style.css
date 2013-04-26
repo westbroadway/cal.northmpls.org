@@ -52,23 +52,88 @@ body {
 #filters .select2-container-multi .select2-choices {
   border-color: #eef;
 }
-/*
-  * the setup class is is where you define the transition code and where
-    you define any initialization styles for your animation.
 
-  * the start class is where the animation occurs. So setup any of the
-    styles that you wish to animate. Also note that you must include both
-    classes together so that the animation styles are not conflicting with
-    the setup styles (this avoids any CSS-specificity issues).
-*/
-.mycss-animation-setup {
-  -webkit-transition:0.3s linear all;
-  -moz-transition:0.3s linear all;
-  -o-transition:0.3s linear all;
-  transition:0.3s linear all; /* future proof */
-
-  background:red;
+/* events colors */
+.event-us_holidays,
+.fc-agenda .event-us_holidays .fc-event-time,
+.event-us_holidays a {
+  background-color: #CDFAF5;
 }
-.mycss-animation-setup.mycss-animation-start {
-  background:blue;
+
+.event-lundstrum,
+.fc-agenda .event-lundstrum .fc-event-time,
+.event-lundstrum a {
+  background-color: #0088CC;
+}
+
+.event-lowry_bz_assn,
+.fc-agenda .event-lowry_bz_assn .fc-event-time,
+.event-lowry_bz_assn a {
+  background-color: #A6EAF5;
+}
+
+.event-wbc_farmers_market,
+.fc-agenda .event-wbc_farmers_market .fc-event-time,
+.event-wbc_farmers_market a {
+  background-color: #57ADBA;
+}
+
+.event-northwest_bz_assn,
+.fc-agenda .event-northwest_bz_assn .fc-event-time,
+.event-northwest_bz_assn a {
+  background-color: #AFC7ED;
+}
+
+.event-camden_comm,
+.fc-agenda .event-camden_comm .fc-event-time,
+.event-camden_comm a {
+  background-color: #DAAFED;
+}
+
+.event-lindbohanon,
+.fc-agenda .event-lindbohanon .fc-event-time,
+.event-lindbohanon a {
+  background-color: #F294DB;
+}
+
+.event-cleveland,
+.fc-agenda .event-cleveland .fc-event-time,
+.event-cleveland a {
+  background-color: #AFF294;
+}
+
+.event-homewoodstudios,
+.fc-agenda .event-homewoodstudios .fc-event-time,
+.event-homewoodstudios a {
+  background-color: #7DA36D;
+}
+
+.event-hnampls,
+.fc-agenda .event-hnampls .fc-event-time,
+.event-hnampls a {
+  background-color: #F5E2BF;
+}
+
+.event-webbercamden,
+.fc-agenda .event-webbercamden .fc-event-time,
+.event-webbercamden a {
+  background-color: #FAFAAC;
+}
+
+.event-wbc,
+.fc-agenda .event-wbc .fc-event-time,
+.event-wbc a {
+  background-color: #FACAAC;
+}
+
+.event-jordan_area,
+.fc-agenda .event-jordan_area .fc-event-time,
+.event-jordan_area a {
+  background-color: #BF642C;
+}
+
+.event-nacarts,
+.fc-agenda .event-nacarts .fc-event-time,
+.event-nacarts a {
+  background-color: #41782E;
 }

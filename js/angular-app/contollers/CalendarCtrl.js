@@ -124,7 +124,8 @@ calApp.controller('CalendarCtrl', function ($scope, $http, fullcalendarHelper, G
           start: start,
           end: end,
           allDay: allDay,
-          feedName: feedName
+          feedName: feedName,
+          className: 'event-' + feedName
         });
       });
       return events;
