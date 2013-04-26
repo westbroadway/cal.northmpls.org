@@ -5,11 +5,7 @@ calApp.controller('MainCtrl', function ($scope) {
     loading: false
   };
 
-  $scope.Sources = {
-    all: [],
-    feeds: [],
-    filtered: []
-  };
+  $scope.Events = [];
 
   $scope.Filters = {
     all: [],
@@ -30,32 +26,18 @@ calApp.controller('MainCtrl', function ($scope) {
       text: filterDisplayFormat
     },
     formatSelection: filterDisplayFormat,
-    formatResult: filterDisplayFormat,
-    change: function (event) {
-      console.log(arguments);
-    }
+    formatResult: filterDisplayFormat
   };
 
-  var calendarElm = $('#calendar');
-
   $('#filters_select2').on('change', function (event) {
-    var findSourcesByName = function (name) {
-      return _($scope.Filters.all).filter(function (item) {
-        return item.name == name;
-      });
-    };
+    var activeFilters = event.val;
 
-    if (event.added) {
-      _(findSourcesByName(event.added.name)).each(function (source) {
-        calendarElm.fullCalendar('addEventSource', source);
-        calendarElm.fullCalendar('refetchEvents');
-      });
-    } else if (event.removed) {
-      _(findSourcesByName(event.removed.name)).each(function (source) {
-        calendarElm.fullCalendar('removeEventSource', source);
-        calendarElm.fullCalendar('refetchEvents');
-      });
-    }
+    $scope.$broadcast(
+      'events.updated',
+      _($scope.Events).filter(function (item) {
+        return _(activeFilters).contains(item.feedName);
+      })
+    );
   });
 
   $scope.gapiLoaded = function () {

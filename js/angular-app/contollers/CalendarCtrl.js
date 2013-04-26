@@ -13,37 +13,6 @@ calApp.controller('CalendarCtrl', function ($scope, $http, fullcalendarHelper, G
 
   var FEEDS_SOURCE = 'https://api.github.com/repos/westbroadway/northmpls_content/contents/calendar_feeds.yml';
 
-  $scope.obtainFeeds = function () {
-
-    $http.get(FEEDS_SOURCE, {headers: {"Accept": "application/vnd.github.raw"}})
-      .success(function (response) {
-        // parse sources from yaml
-        angular.extend($scope.Sources.all, _.filter(
-          jsyaml.load(response.replace(/^\s+|\s+$/g, '')),
-          function (item) {
-            //has a type of 'google_feed' and a value for 'url'
-            return (item.type === 'google_feed' && item.url && item.url.length);
-          }));
-
-        $scope.Sources.feeds = angular.copy($scope.Sources.all);
-
-        // init all available to fullcalendar filters
-        angular.extend($scope.Filters.all, _(
-          _($scope.Sources.feeds).map(function (item) {
-            return { name: item.name, title: item.title, checked: true };
-          })
-        ).uniq(function (item) {
-            return item.name;
-          }));
-
-        // populate all filters to selection
-        $scope.Filters.selected = angular.copy($scope.Filters.all);
-
-        // filter out google_feeds and pass to full calendar
-        $scope.initCalendar($scope.Sources.feeds);
-      });
-  };
-
   var calendarElm = $('#calendar');
 
   $scope.initCalendar = function (eventSources) {
@@ -68,7 +37,14 @@ calApp.controller('CalendarCtrl', function ($scope, $http, fullcalendarHelper, G
     });
   };
 
-  //$scope.obtainFeeds();
+  $scope.updateCalendar = function (events) {
+    fullcalendarHelper.removeEvents(calendarElm);
+    $scope.initCalendar(events);
+  };
+
+  $scope.$on('events.updated', function (event, data) {
+    $scope.updateCalendar(data);
+  });
 
   var sources;
   (function () {
@@ -81,16 +57,28 @@ calApp.controller('CalendarCtrl', function ($scope, $http, fullcalendarHelper, G
             //has a type of 'google_feed' and a value for 'url'
             return (item.type === 'google_feed' && item.url && item.url.length);
           });
+
+        // init all available to fullcalendar filters
+        angular.extend($scope.Filters.all, _(
+          _(sources).map(function (item) {
+            return { name: item.name, title: item.title, checked: true };
+          })
+        ).uniq(function (item) {
+            return item.name;
+          }));
+
+        // populate all filters to selection
+        $scope.Filters.selected = angular.copy($scope.Filters.all);
+
         $scope.$broadcast('sources.ready', sources);
       });
   }());
 
-  $scope.calendars = {};
-  $scope.events = [];
   var calsNum = 0;
   var calsObtained = 0;
   // fire up loading
   $scope.$on('gapi.ready', function () {
+    var events = [];
     var obtainEvents = function (event, feeds) {
       _(feeds).each(function (feed) {
         if (!feed.google_cal_email) return; //@TODO
@@ -98,14 +86,13 @@ calApp.controller('CalendarCtrl', function ($scope, $http, fullcalendarHelper, G
         gapi.client.calendar.events.list({ calendarId: feed.google_cal_email.replace('%40', '@') })
           .execute(function (response) {
             $scope.$apply(function () {
-              $scope.calendars[feed.google_cal_email] = response.items
-              $scope.events = $scope.events.concat(
+              events = events.concat(
                 transformEvents(response.items, feed.name)
               );
               calsObtained += 1;
               if (calsNum === calsObtained) {
-                $scope.initCalendar($scope.events);
-                console.log($scope.events, $scope.events.length);
+                angular.extend($scope.Events, events);
+                $scope.initCalendar($scope.Events);
               }
             });
           });
@@ -150,5 +137,4 @@ calApp.controller('CalendarCtrl', function ($scope, $http, fullcalendarHelper, G
     }
   });
 
-})
-;
+});
