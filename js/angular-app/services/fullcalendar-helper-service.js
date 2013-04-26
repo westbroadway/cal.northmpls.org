@@ -2,6 +2,8 @@
 
 calApp.service('fullcalendarHelper', function () {
 
+    var fc = $.fullCalendar;
+
     var service = {
 
       init: function (elm, options) {
@@ -36,7 +38,12 @@ calApp.service('fullcalendarHelper', function () {
 
       clientEvents: function (elm) {
         return elm.fullCalendar('clientEvents');
-      }
+      },
+
+      formatDate: fc.formatDate,
+      parseISO8601: fc.parseISO8601,
+      addDays: fc.addDays,
+      applyAll: fc.applyAll
     };
 
     return service;

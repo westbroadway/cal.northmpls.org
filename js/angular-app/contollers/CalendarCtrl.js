@@ -99,40 +99,47 @@ calApp.controller('CalendarCtrl', function ($scope, $http, fullcalendarHelper, G
           .execute(function (response) {
             $scope.$apply(function () {
               $scope.calendars[feed.google_cal_email] = response.items
-              $scope.events = $scope.events.concat(transformEvents(response.items));
+              $scope.events = $scope.events.concat(
+                transformEvents(response.items, feed.name)
+              );
               calsObtained += 1;
-              console.log($scope.events.length)
               if (calsNum === calsObtained) {
                 $scope.initCalendar($scope.events);
+                console.log($scope.events, $scope.events.length);
               }
             });
           });
       });
     };
 
-    var transformEvents = function (gEvents) {
-      var events = [];
-      if (gEvents) {
-        _(gEvents).each(function (entry) {
-          if (entry.status !== "confirmed") {
-            return;
-          }
+    var transformEvents = function (gEvents, feedName) {
+      if (!gEvents) return [];
 
-          var startStr = entry.start.date || entry.start.dateTime;
-          var start = new Date(startStr);
-          var end = new Date(entry.end.date);
-          var allDay = startStr.indexOf('T') == -1;
-          var url = entry.htmlLink;
-          events.push({
-            id: entry.id,
-            title: entry.summary,
-            url: url,
-            start: start,
-            end: end,
-            allDay: allDay
-          });
+      var events = [];
+      _(gEvents).each(function (entry) {
+        if (entry.status !== "confirmed") {
+          return;
+        }
+
+        var startStr = entry.start.date || entry.start.dateTime;
+        var start = fullcalendarHelper.parseISO8601(startStr, true);
+        var endStr = entry.end.date || entry.end.dateTime;
+        var end = fullcalendarHelper.parseISO8601(endStr, true);
+        var allDay = startStr.indexOf('T') == -1;
+        if (allDay) {
+          fullcalendarHelper.addDays(end, -1);
+        }
+        var url = entry.htmlLink;
+        events.push({
+          id: entry.id,
+          title: entry.summary,
+          url: url,
+          start: start,
+          end: end,
+          allDay: allDay,
+          feedName: feedName
         });
-      }
+      });
       return events;
     };
 
@@ -143,4 +150,5 @@ calApp.controller('CalendarCtrl', function ($scope, $http, fullcalendarHelper, G
     }
   });
 
-});
+})
+;
