@@ -80,28 +80,33 @@ calApp.controller('CalendarCtrl', function ($scope, $http, fullcalendarHelper, G
   $scope.$on('gapi.ready', function () {
     var events = [];
     var obtainEvents = function (event, feeds) {
-      _(feeds).each(function (feed) {
-        if (!feed.google_cal_email) return; //@TODO
+      var rpcBatch = gapi.client.newRpcBatch();
+
+      _(feeds).each(function (feed, feedId) {
+        if (!feed.google_cal_email) return;
         calsNum += 1;
-        gapi.client.calendar.events.list({
+        rpcBatch.add(gapi.client.calendar.events.list({
           calendarId: feed.google_cal_email.replace('%40', '@'),
           minTime: fullcalendarHelper.formatDate(new Date(Date.now() - 31320000000), 'u'),
           maxTime: fullcalendarHelper.formatDate(new Date(Date.now() + 31320000000), 'u'),
           singleEvents: true,
-          maxResults: 9999
-        })
-          .execute(function (response) {
-            $scope.$apply(function () {
-              events = events.concat(
-                transformEvents(response.items, feed.name)
-              );
-              calsObtained += 1;
-              if (calsNum === calsObtained) {
-                angular.extend($scope.Events, events);
-                $scope.initCalendar($scope.Events);
-              }
-            });
+          maxResults: 999
+        }), {id: feedId});
+      });
+
+      rpcBatch.execute(function (responses) {
+        $scope.$apply(function () {
+          _(responses).each(function (response, feedId) {
+            events = events.concat(
+              transformEvents(response.result.items, feeds[feedId].name)
+            );
+            calsObtained += 1;
+            if (calsNum === calsObtained) {
+              angular.extend($scope.Events, events);
+              $scope.initCalendar($scope.Events);
+            }
           });
+        });
       });
     };
 
