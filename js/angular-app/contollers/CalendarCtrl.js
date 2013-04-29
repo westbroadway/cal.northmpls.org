@@ -9,9 +9,10 @@
  * If we need a machine name use the 'name' property.
  * Some calendars share the same name property and should be included as one.
  */
-calApp.controller('CalendarCtrl', function ($scope, $http, fullcalendarHelper, GAPI) {
+calApp.controller('CalendarCtrl', function ($scope, $http, fullcalendarHelper, $q) {
 
   var FEEDS_SOURCE = 'https://api.github.com/repos/westbroadway/northmpls_content/contents/calendar_feeds.yml';
+//  var FEEDS_SOURCE = '/json/calendar_feeds.yml';
 
   var calendarElm = $('#calendar');
 
@@ -47,7 +48,7 @@ calApp.controller('CalendarCtrl', function ($scope, $http, fullcalendarHelper, G
   });
 
   var sources;
-  (function () {
+  $scope.obtainFeedsList = function () {
     $http.get(FEEDS_SOURCE, {headers: {"Accept": "application/vnd.github.raw"}})
       .success(function (response) {
         // parse sources from yaml
@@ -70,83 +71,64 @@ calApp.controller('CalendarCtrl', function ($scope, $http, fullcalendarHelper, G
         // populate all filters to selection
         $scope.Filters.selected = angular.copy($scope.Filters.all);
 
-        $scope.$broadcast('sources.ready', sources);
+        $scope.obtainEvents(sources);
       });
-  }());
+  };
 
-  var calsNum = 0;
-  var calsObtained = 0;
+  // fire function
+  $scope.obtainFeedsList();
+
   // fire up loading
-  $scope.$on('gapi.ready', function () {
-    var events = [];
-    var obtainEvents = function (event, feeds) {
-      var rpcBatch = gapi.client.newRpcBatch();
+  var events = [];
+  $scope.obtainEvents = function (feeds) {
 
-      _(feeds).each(function (feed, feedId) {
-        if (!feed.google_cal_email) return;
-        calsNum += 1;
-        rpcBatch.add(gapi.client.calendar.events.list({
-          calendarId: feed.google_cal_email.replace('%40', '@'),
-          minTime: fullcalendarHelper.formatDate(new Date(Date.now() - 31320000000), 'u'),
-          maxTime: fullcalendarHelper.formatDate(new Date(Date.now() + 31320000000), 'u'),
-          singleEvents: true,
-          maxResults: 999
-        }), {id: feedId});
-      });
+    var thirtyDays = 2592000000;
 
-      rpcBatch.execute(function (responses) {
-        $scope.$apply(function () {
-          _(responses).each(function (response, feedId) {
-            events = events.concat(
-              transformEvents(response.result.items, feeds[feedId].name)
-            );
-            calsObtained += 1;
-            if (calsNum === calsObtained) {
-              angular.extend($scope.Events, events);
-              $scope.initCalendar($scope.Events);
+    var https = [];
+    _(feeds).each(function (feed, feedId) {
+      https.push($http.get('http://www.google.com/calendar/feeds/' + feed.google_cal_email + '/public/full?'
+        + 'alt=json'
+        + '&max-results=20000'
+        + '&singleevents=true'
+        + '&start-min=' + fullcalendarHelper.formatDate(new Date(Date.now() - 2 * thirtyDays), 'u')
+        + '&start-max=' + fullcalendarHelper.formatDate(new Date(Date.now() + 2 * thirtyDays), 'u')
+      ));
+    });
+
+    $q.all(https).then(function (responses) {
+      _(responses).each(function (response, index) {
+        _(response.data.feed.entry).each(function (entry) {
+          var startStr = entry['gd$when'][0]['startTime'];
+          var start = fullcalendarHelper.parseISO8601(startStr, true);
+          var end = fullcalendarHelper.parseISO8601(entry['gd$when'][0]['endTime'], true);
+          var allDay = startStr.indexOf('T') == -1;
+          var url;
+          $.each(entry.link, function (i, link) {
+            if (link.type == 'text/html') {
+              url = link.href;
             }
           });
+          if (allDay) {
+            fullcalendarHelper.addDays(end, -1); // make inclusive
+          }
+          events.push({
+            id: entry['gCal$uid']['value'],
+            title: entry['title']['$t'],
+            url: url,
+            start: start,
+            end: end,
+            allDay: allDay,
+            location: entry['gd$where'][0]['valueString'],
+            description: entry['content']['$t'],
+            feedName: feeds[index].name,
+            className: 'event-' + feeds[index].name
+          });
+
         });
       });
-    };
-
-    var transformEvents = function (gEvents, feedName) {
-      if (!gEvents) return [];
-
-      var events = [];
-      _(gEvents).each(function (entry) {
-        if (entry.status !== "confirmed") {
-          return;
-        }
-
-        var startStr = entry.start.date || entry.start.dateTime;
-        var start = fullcalendarHelper.parseISO8601(startStr, true);
-        var endStr = entry.end.date || entry.end.dateTime;
-        var end = fullcalendarHelper.parseISO8601(endStr, true);
-        var allDay = startStr.indexOf('T') == -1;
-        if (allDay) {
-          fullcalendarHelper.addDays(end, -1);
-        }
-        var url = entry.htmlLink;
-        events.push({
-          id: entry.id,
-          title: entry.summary,
-          url: url,
-          start: start,
-          end: end,
-          allDay: allDay,
-          feedName: feedName,
-          className: 'event-' + feedName
-        });
-      });
-      return events;
-    };
-
-    if (!sources) {
-      $scope.$on('sources.ready', obtainEvents);
-    } else {
-      obtainEvents(false, sources);
-    }
-  });
+      angular.extend($scope.Events, events);
+      $scope.initCalendar($scope.Events);
+    });
+  };
 
 });
