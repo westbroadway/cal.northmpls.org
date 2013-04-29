@@ -12,7 +12,11 @@ calApp.controller('MainCtrl', function ($scope) {
     selected: []
   };
 
-  //$scope.selectedFilters = [];
+  var filterTmpl = _.template('<div class="event-<%= id %>"><%= text %></div>');
+
+  var filterFormat = function (item) {
+      return filterTmpl({id: item.name, text: item.name});
+  }
 
   var filterDisplayFormat = function (filter) {
     return filter.title;
@@ -23,10 +27,10 @@ calApp.controller('MainCtrl', function ($scope) {
     id: 'name',
     data: {
       results: $scope.Filters.all,
-      text: filterDisplayFormat
+      text: filterFormat
     },
     formatSelection: filterDisplayFormat,
-    formatResult: filterDisplayFormat
+    formatResult: filterFormat
   };
 
   $('#filters_select2').on('change', function (event) {
@@ -40,7 +44,4 @@ calApp.controller('MainCtrl', function ($scope) {
     );
   });
 
-  $scope.gapiLoaded = function () {
-    $scope.$emit('gapi.loaded');
-  };
 });
