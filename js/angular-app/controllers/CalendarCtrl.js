@@ -12,7 +12,7 @@
 calApp.controller('CalendarCtrl', function ($scope, $http, fullcalendarHelper, $q) {
 
   var FEEDS_SOURCE = 'https://api.github.com/repos/westbroadway/northmpls_content/contents/calendar_feeds.yml';
-//  var FEEDS_SOURCE = '/json/calendar_feeds.yml';
+  var FEEDS_SOURCE = '/json/calendar_feeds.yml';
 
   var calendarElm = $('#calendar');
 

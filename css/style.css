@@ -21,7 +21,7 @@ body {
 }
 
 #calendar a:hover {
-  color: #0d5a8a;
+  color: #dfffff;
 }
 
 #calendar .fc-header-title h2 {
@@ -69,7 +69,7 @@ body {
 .event-lowry_bz_assn,
 .fc-agenda .event-lowry_bz_assn .fc-event-time,
 .event-lowry_bz_assn a {
-  background-color: #A6EAF5;
+  background-color: #A1d0f1;
 }
 
 .event-wbc_farmers_market,
@@ -135,5 +135,5 @@ body {
 .event-nacarts,
 .fc-agenda .event-nacarts .fc-event-time,
 .event-nacarts a {
-  background-color: #41782E;
+  background-color: #0399c6;
 }
