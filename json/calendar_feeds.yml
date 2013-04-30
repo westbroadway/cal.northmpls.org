@@ -1,0 +1,170 @@
+---
+-
+  name: us_holidays
+  title: US Holidays
+  url: http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic
+  type: google_feed
+  google_cal_email: usa__en%40holiday.calendar.google.com
+-
+  name: lundstrum
+  title: Lundstrum
+  url: http://www.google.com/calendar/feeds/lundstrum%40gmail.com/public/basic
+  google_cal_email: lundstrum%40gmail.com
+  type: google_feed
+  source: http://lundstrumcenter.org/PerformanceCalendar/tabid/67/Default.aspx
+-
+  name: wbc_farmers_market
+  title: WBC Farmers Market
+  url: http://www.google.com/calendar/feeds/4u10fkeuicie4pg15ddkjtqkv0%40group.calendar.google.com/public/basic
+  type: google_feed
+  google_cal_email: 4u10fkeuicie4pg15ddkjtqkv0%40group.calendar.google.com
+-
+  name: lowry_bz_assn
+  title: Lowry Business Association
+  url: http://www.google.com/calendar/feeds/lowrybzassn%40gmail.com/public/basic
+  type: google_feed
+  source: http://www.lowrybusiness.org/meetings-events-2/meetings-events/
+  google_cal_email: lowrybzassn%40gmail.com
+-
+  name: northwest_bz_assn
+  title: Northwest Business Association
+  url: http://www.google.com/calendar/feeds/u7qopdnvq251b56ch9pjg7pr9g%40group.calendar.google.com/public/basic
+  type: google_feed
+  source: http://www.nwmplsbusiness.com/Business/info.nsf/Get+NWMBA/Calendar!opendocument
+  google_cal_email: u7qopdnvq251b56ch9pjg7pr9g%40group.calendar.google.com
+-
+  name: webbercamden
+  title: Webber Camden
+  url: http://www.google.com/calendar/feeds/72cdkf7u3ms4gol9jie8vnr448%40group.calendar.google.com/public/basic
+  type: google_feed
+  source: http://site.webbercamden.org/calendar/
+  google_cal_email: 72cdkf7u3ms4gol9jie8vnr448%40group.calendar.google.com
+-
+  name: jordan_area
+  title: Jordan Area
+  url: http://www.google.com/calendar/feeds/jlf409ve06c31pfquoi71ee7fg%40group.calendar.google.com/public/basic
+  type: google_feed
+  source: http://jordanmpls.org/calendar/
+  google_cal_email: jlf409ve06c31pfquoi71ee7fg%40group.calendar.google.com
+-
+  name: cleveland
+  title: Cleveland
+  url: http://www.google.com/calendar/feeds/clevelandneighborhood.org_q1cjksji4r5o4v7nku2p0vvlq4%40group.calendar.google.com/public/basic
+  type: google_feed
+  source: http://clevelandneighborhood.org/calendar/
+  google_cal_email: clevelandneighborhood.org_q1cjksji4r5o4v7nku2p0vvlq4%40group.calendar.google.com
+-
+  name: wbc
+  title: WBC
+  url: http://www.google.com/calendar/feeds/bhsnak19p1qdhkcbo3u1v7ntpo%40group.calendar.google.com/public/basic
+  type: google_feed
+  google_cal_email: bhsnak19p1qdhkcbo3u1v7ntpo%40group.calendar.google.com
+-
+  name: homewoodstudios
+  title: Homewood Studios
+  url: http://www.google.com/calendar/feeds/ojf5eujb1nlrt9mgjq5jcvsiec%40group.calendar.google.com/public/basic
+  google_cal_email: ojf5eujb1nlrt9mgjq5jcvsiec%40group.calendar.google.com
+  type: google_feed
+  source: http://www.homewoodstudios.com/calendar-gallery.html
+-
+  name: mplsphotocenter
+  title: Minneapolis Photo Center
+  source: http://www.mplsphotocenter.com/about/calendar.php
+-
+  name: hnampls
+  title: Harrison Neighborhood Association
+  url: http://www.google.com/calendar/feeds/harrisonmpls@gmail.com/public/basic
+  source: http://www.hnampls.org/calendar.html
+  google_cal_email: harrisonmpls@gmail.com
+  type: google_feed
+-
+  name: nrrc
+  title: Northside Residents Redevelopment Council
+  source: http://www.nrrc.org/events.html
+-
+  name: lindbohanon
+  title: Lind-Bhanon Neighborhood
+  source: http://lindbohanon.org/Neighborhood.nsf/Get+LBNA/Calendar+of+Events!opendocument
+  google_cal_email: joeandjeannabor%40gmail.com
+  url: http://www.google.com/calendar/feeds/joeandjeannabor%40gmail.com/public/basic
+  type: google_feed
+-
+  name: camden_comm
+  title: Camden Community
+  url: http://www.google.com/calendar/feeds/26j5sg50qf96eoc9dudtvqslmg%40group.calendar.google.com/public/basic
+  type: google_feed
+  google_cal_email: 26j5sg50qf96eoc9dudtvqslmg%40group.calendar.google.com
+-
+  name: camden_comm
+  title: Camden Community
+  url: http://www.google.com/calendar/feeds/m02u3qnr49jqke39dhnutkcuh4%40group.calendar.google.com/public/basic
+  type: google_feed
+  google_cal_email: m02u3qnr49jqke39dhnutkcuh4%40group.calendar.google.com
+-
+  name: camden_comm
+  title: Camden Community
+  url: http://www.google.com/calendar/feeds/flchvij89hpk4n9it91ucpgjj4%40group.calendar.google.com/public/basic
+  type: google_feed
+  google_cal_email: flchvij89hpk4n9it91ucpgjj4%40group.calendar.google.com
+-
+  name: camden_comm
+  title: Camden Community
+  url: http://www.google.com/calendar/feeds/9khgk3frafmhe25tg27c6f5r4g%40group.calendar.google.com/public/basic
+  type: google_feed
+  google_cal_email: 9khgk3frafmhe25tg27c6f5r4g%40group.calendar.google.com
+-
+  name: camden_comm
+  title: Camden Community
+  url: http://www.google.com/calendar/feeds/rj4q4hfv3fogj073e2ulkl9oac%40group.calendar.google.com/public/basic
+  type: google_feed
+  google_cal_email: rj4q4hfv3fogj073e2ulkl9oac%40group.calendar.google.com
+-
+  name: camden_comm
+  title: Camden Community
+  url: http://www.google.com/calendar/feeds/cd8n89ha27fno1jkvtim5g5ag0%40group.calendar.google.com/public/basic
+  type: google_feed
+  google_cal_email: cd8n89ha27fno1jkvtim5g5ag0%40group.calendar.google.com
+-
+  name: camden_comm
+  title: Camden Community
+  url: http://www.google.com/calendar/feeds/u5p7gtoq7i8mm4k77qva4kkkm0%40group.calendar.google.com/public/basic
+  type: google_feed
+  google_cal_email: u5p7gtoq7i8mm4k77qva4kkkm0%40group.calendar.google.com
+-
+  name: camden_comm
+  title: Camden Community
+  url: http://www.google.com/calendar/feeds/phltecf38eds4q1nk257rsc54c%40group.calendar.google.com/public/basic
+  type: google_feed
+  google_cal_email: phltecf38eds4q1nk257rsc54c%40group.calendar.google.com
+-
+  title: Northside Transportation Network
+  website: http://northsidetransit.org
+-
+  title: Hearts and Hammers
+  website: http://www.heartsandhammers.org
+-
+  title: Folwell
+  description: We are a network of neighborhoods and initiatives in North Minneapolis.
+  website: http://www.folwell.org
+-
+  title: Old Highland
+  website: http://www.oldhighland.org
+-
+  name: nacarts
+  title: Northside Arts Collective
+  website: http://nacarts.org
+  source: http://nacarts.org/calendar
+  google_cal_email: info%40nacarts.org
+  url: http://www.google.com/calendar/feeds/info%40nacarts.org/public/basic
+  type: google_feed
+-
+  title: UpperWHO
+  website: http://upperwho.org
+-
+  title: Willard Homewood (WHO)
+  website: http://willardhomewood.org
+-
+  title: Northside Economic Opportunity Network
+  name: neon
+  source: http://www.neon-mn.org/calander.html
+
