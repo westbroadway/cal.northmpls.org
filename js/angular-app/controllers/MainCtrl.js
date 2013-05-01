@@ -12,10 +12,10 @@ calApp.controller('MainCtrl', function ($scope) {
     selected: []
   };
 
-  var filterTmpl = _.template('<div class="event-<%= id %>"><%= text %></div>');
+  var filterTmpl = _.template('<span class="event-<%= id %>">&nbsp;&nbsp;&nbsp;</span>&nbsp; <%= text %>');
 
   var filterFormat = function (item) {
-      return filterTmpl({id: item.name, text: item.name});
+      return filterTmpl({id: item.name, text: item.title});
   }
 
   var filterDisplayFormat = function (filter) {
@@ -27,10 +27,11 @@ calApp.controller('MainCtrl', function ($scope) {
     id: 'name',
     data: {
       results: $scope.Filters.all,
-      text: filterFormat
+      text: filterDisplayFormat
     },
-    formatSelection: filterDisplayFormat,
-    formatResult: filterFormat
+    formatSelection: filterFormat,
+    formatResult: filterDisplayFormat,
+    escapeMarkup: function(m) { return m; }
   };
 
   $('#filters_select2').on('change', function (event) {
